@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Search, MapPin, DollarSign, ChevronDown } from "lucide-react";
 import Navbar from "../_components/Navbar";
 import { createClient } from "@/supabase/utilis/clientComponents";
+import Link from "next/link";
 
 
 
@@ -191,11 +192,12 @@ export default function JobPortal() {
                                             )}
                                         </div>
                                     </div>
-
-                                    {/* Wide Action Button */}
+                                    <Link href={`/jobs/${job.id}`}>
                                     <button className="w-full bg-[#0f4c81] hover:bg-[#0c3e69] text-white font-semibold text-sm py-2.5 rounded-lg transition-colors text-center block">
                                         View Details
                                     </button>
+                                    </Link>
+                                    
                                 </div>
                             );
                         })}
