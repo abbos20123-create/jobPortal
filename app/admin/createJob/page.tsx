@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { createClient } from "@/supabase/utilis/clientComponents";
 
-// Initialize your Supabase client
 const supabase = createClient();
 
 export default function CreateJob() {
@@ -79,7 +78,6 @@ export default function CreateJob() {
 
     return (
         <div className="p-12 max-w-5xl w-full mx-auto">
-            {/* Back button container */}
             <div className="mb-6">
                 <Link
                     href="/admin"
@@ -89,13 +87,11 @@ export default function CreateJob() {
                 </Link>
             </div>
 
-            {/* Hero Header Context */}
             <div className="mb-8">
                 <h1 className="text-3xl font-extrabold text-slate-900 mb-1">Create New Job</h1>
                 <p className="text-slate-500 text-sm">Fill in the form below to create a new job posting</p>
             </div>
 
-            {/* Main Panel Content Box */}
             <div className="bg-white rounded-xl border border-slate-200/60 shadow-sm p-8">
                 <h2 className="text-xl font-bold text-slate-900 mb-8">Add New Job</h2>
 
@@ -109,7 +105,6 @@ export default function CreateJob() {
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Two Columns Grid Row 1 */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-bold text-slate-800 mb-2">Job Title *</label>
@@ -137,7 +132,6 @@ export default function CreateJob() {
                         </div>
                     </div>
 
-                    {/* Two Columns Grid Row 2 */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-bold text-slate-800 mb-2">Location *</label>
@@ -164,7 +158,6 @@ export default function CreateJob() {
                         </div>
                     </div>
 
-                    {/* Two Columns Grid Row 3 (Select elements) */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-bold text-slate-800 mb-2">Category</label>
@@ -203,7 +196,6 @@ export default function CreateJob() {
                         </div>
                     </div>
 
-                    {/* Description Block */}
                     <div>
                         <label className="block text-sm font-bold text-slate-800 mb-2">Description *</label>
                         <textarea
@@ -217,7 +209,6 @@ export default function CreateJob() {
                         />
                     </div>
 
-                    {/* Requirements Block */}
                     <div>
                         <label className="block text-sm font-bold text-slate-800 mb-2">Requirements (comma-separated)</label>
                         <input
@@ -230,7 +221,6 @@ export default function CreateJob() {
                         />
                     </div>
 
-                    {/* Action Buttons Row */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
                         <button
                             type="submit"

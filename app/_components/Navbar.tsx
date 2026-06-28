@@ -13,7 +13,7 @@ function Navbar() {
                 <div className="mx-auto flex max-w-7xl items-center justify-between">
 
                     <a onClick={()=>route.push("/")} className="group flex items-center gap-3 cursor-pointer">
-                        <div className="flex h-[38px] w-[38px] items-center justify-center rounded-lg bg-[#0f3473] font-bold text-white text-xs tracking-wider transition-transform duration-200 ease-out group-hover:scale-105">
+                        <div className="flex h-9.5 w-9.5 items-center justify-center rounded-lg bg-[#0f3473] font-bold text-white text-xs tracking-wider transition-transform duration-200 ease-out group-hover:scale-105">
                             JP
                         </div>
                         <span className="text-lg font-bold tracking-tight text-[#0f3473] transition-colors duration-200 ease-out group-hover:text-[#0b2859]">

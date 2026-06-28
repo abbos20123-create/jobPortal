@@ -5,10 +5,8 @@ function Footer() {
         <footer className="bg-[#030712] text-gray-400 py-12 px-6 sm:px-16 font-sans antialiased">
             <div className="mx-auto max-w-6xl">
 
-                {/* 3-Column Content Layout */}
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-3 text-left mb-10">
 
-                    {/* Column 1: About */}
                     <div>
                         <h4 className="text-white font-bold text-sm tracking-wide mb-4">
                             About JobPortal
@@ -18,7 +16,6 @@ function Footer() {
                         </p>
                     </div>
 
-                    {/* Column 2: Quick Links */}
                     <div>
                         <h4 className="text-white font-bold text-sm tracking-wide mb-4">
                             Quick Links
@@ -37,7 +34,6 @@ function Footer() {
                         </ul>
                     </div>
 
-                    {/* Column 3: Contact */}
                     <div>
                         <h4 className="text-white font-bold text-sm tracking-wide mb-4">
                             Contact
@@ -51,10 +47,8 @@ function Footer() {
 
                 </div>
 
-                {/* Thin Horizontal Divider line */}
                 <div className="border-t border-gray-800/60 my-6"></div>
 
-                {/* Bottom Copyright Information */}
                 <div className="text-center pt-2">
                     <p className="text-[13px] text-gray-400">
                         &copy; 2024 JobPortal. All rights reserved.

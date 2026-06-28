@@ -5,9 +5,7 @@ import { Search, MapPin, DollarSign, ChevronDown } from "lucide-react";
 import Navbar from "../_components/Navbar";
 import { createClient } from "@/supabase/utilis/clientComponents";
 import Link from "next/link";
-
-
-
+import { useSearchParams } from "next/navigation";
 
 interface Job {
     id: string;
@@ -26,6 +24,16 @@ export default function JobPortal() {
     const [search, setSearch] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("All Categories");
     const supabase = createClient()
+    
+    const searchParams = useSearchParams();
+    const urlQuery = searchParams.get("query");
+
+    useEffect(() => {
+        if (urlQuery) {
+            setSearch(urlQuery);
+        }
+    }, [urlQuery]);
+
     const fetchJobs = async () => {
         let query = supabase.from("jobs").select("*");
 
@@ -46,10 +54,7 @@ export default function JobPortal() {
         }
     }
 
-
-
     useEffect(() => {
-
         fetchJobs();
     }, [search, selectedCategory])
 
@@ -61,21 +66,17 @@ export default function JobPortal() {
     return (
         <div className="min-h-screen bg-[#f8fafc] text-[#1e293b] font-sans flex flex-col">
             <Navbar />
-
-            {/* Main Content Area */}
+  
             <main className="max-w-7xl mx-auto px-8 py-10 grow w-full">
-                {/* Hero Section */}
                 <div className="mb-10">
                     <h1 className="text-4xl font-extrabold text-slate-900 mb-2">Find Your Next Opportunity</h1>
                     <p className="text-slate-500 text-lg">Explore our curated list of job openings and find the perfect match for your career.</p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
-                    {/* Filters Sidebar */}
                     <aside className="bg-white rounded-xl border border-slate-100 p-6 shadow-sm sticky top-24">
                         <h2 className="text-lg font-bold text-slate-900 mb-6">Filter Jobs</h2>
 
-                        {/* Search Input */}
                         <div className="mb-6">
                             <label className="block text-sm font-semibold text-slate-600 mb-2">Search by keyword</label>
                             <div className="relative">
@@ -130,31 +131,26 @@ export default function JobPortal() {
                         </div>
 
                         {jobs.map((job) => {
-                            // Extract first letter for the placeholder icon
                             const firstLetter = job.title.charAt(0);
                             const visibleRequirements = job.requirements.slice(0, 3);
                             const extraCount = job.requirements.length - 3;
 
                             return (
                                 <div key={job.id} className="bg-white rounded-xl border border-slate-100 p-6 shadow-sm hover:shadow-md transition-shadow relative">
-                                    {/* Top Header Block */}
                                     <div className="flex justify-between items-start mb-3">
                                         <div>
                                             <h3 className="text-2xl font-bold text-slate-900 mb-1">{job.title}</h3>
                                             <p className="text-slate-500 font-medium text-sm">{job.company}</p>
                                         </div>
-                                        {/* Placeholder Brand Logo Badge */}
                                         <div className="bg-[#0f4c81] text-white font-bold w-10 h-10 rounded-md flex items-center justify-center text-md shadow-sm">
                                             {firstLetter}
                                         </div>
                                     </div>
 
-                                    {/* Description */}
                                     <p className="text-slate-600 text-[15px] leading-relaxed mb-4 max-w-3xl">
                                         {job.description}
                                     </p>
 
-                                    {/* Badges Row */}
                                     <div className="flex items-center space-x-2 mb-4">
                                         <span className="bg-amber-50 text-amber-600 font-semibold text-xs px-2.5 py-1 rounded">
                                             {job.category}
@@ -164,7 +160,6 @@ export default function JobPortal() {
                                         </span>
                                     </div>
 
-                                    {/* Metadata Indicators */}
                                     <div className="flex items-center space-x-6 text-slate-400 text-sm font-medium mb-5">
                                         <div className="flex items-center space-x-1">
                                             <MapPin className="w-4 h-4 text-pink-400" />
@@ -176,7 +171,6 @@ export default function JobPortal() {
                                         </div>
                                     </div>
 
-                                    {/* Requirements Sub-tags */}
                                     <div className="border-t border-slate-50 pt-4 mb-6">
                                         <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-2">Requirements:</p>
                                         <div className="flex flex-wrap gap-2">
@@ -187,17 +181,16 @@ export default function JobPortal() {
                                             ))}
                                             {extraCount > 0 && (
                                                 <span className="bg-slate-50 border border-slate-200 text-slate-500 text-xs px-2.5 py-1 rounded font-medium">
-                                                    +{extraCount} more
+                                                    +{extraCount || 0} more
                                                 </span>
                                             )}
                                         </div>
                                     </div>
                                     <Link href={`/jobs/${job.id}`}>
-                                    <button className="w-full bg-[#0f4c81] hover:bg-[#0c3e69] text-white font-semibold text-sm py-2.5 rounded-lg transition-colors text-center block">
-                                        View Details
-                                    </button>
+                                        <button className="w-full bg-[#0f4c81] hover:bg-[#0c3e69] text-white font-semibold text-sm py-2.5 rounded-lg transition-colors text-center block">
+                                            View Details
+                                        </button>
                                     </Link>
-                                    
                                 </div>
                             );
                         })}
@@ -211,7 +204,6 @@ export default function JobPortal() {
                 </div>
             </main>
 
-            {/* Footer */}
             <footer className="bg-[#0b0f19] text-slate-400 py-6 text-center text-sm border-t border-slate-800">
                 <p>© 2024 JobPortal. All rights reserved.</p>
             </footer>

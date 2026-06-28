@@ -4,23 +4,14 @@ import React, { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { Mail, User, Briefcase, Calendar, Search, ShieldCheck } from "lucide-react";
 import Navbar from "../../_components/Navbar"; // Adjust path if necessary
+import { Application } from "@/app/types";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-interface Application {
-  id: string;
-  full_name: string;
-  email: string;
-  created_at: string;
-  job_id: string;
-  jobs: {
-    title: string;
-    company: string;
-  } | null;
-}
+
 
 export default function AdminApplications() {
   const [applications, setApplications] = useState<Application[]>([]);
@@ -34,7 +25,6 @@ export default function AdminApplications() {
   const fetchApplications = async () => {
     setLoading(true);
     try {
-      // 1. Fetch all applications
       const { data: appsData, error: appsError } = await supabase
         .from("applications")
         .select("*")
@@ -43,14 +33,12 @@ export default function AdminApplications() {
       if (appsError) throw appsError;
 
       if (appsData && appsData.length > 0) {
-        // 2. Fetch all jobs to cross-reference them in memory
         const { data: jobsData, error: jobsError } = await supabase
           .from("jobs")
           .select("id, title, company");
 
         if (jobsError) throw jobsError;
 
-        // 3. Map the jobs to their respective applications manually
         const formattedApps = appsData.map((app: any) => {
           const matchedJob = jobsData?.find((job) => String(job.id) === String(app.job_id));
           return {
@@ -70,7 +58,6 @@ export default function AdminApplications() {
     }
   };
 
-  // Filter by Applicant Name, Email, or Job Title
   const filteredApplications = applications.filter((app) => {
     const matchesName = app.full_name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesEmail = app.email.toLowerCase().includes(searchTerm.toLowerCase());
@@ -83,7 +70,6 @@ export default function AdminApplications() {
       <Navbar />
 
       <main className="max-w-7xl mx-auto px-8 py-10 grow w-full space-y-8">
-        {/* Header block */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-slate-200 pb-5">
           <div>
             <div className="flex items-center gap-2 text-sm text-[#0f4c81] font-bold uppercase tracking-wider mb-1">
@@ -93,7 +79,6 @@ export default function AdminApplications() {
             <p className="text-slate-500 text-sm">Review and manage candidates who applied for open roles.</p>
           </div>
 
-          {/* Search Bar Input */}
           <div className="relative w-full md:w-80">
             <input
               type="text"
@@ -106,7 +91,6 @@ export default function AdminApplications() {
           </div>
         </div>
 
-        {/* Content Area */}
         {loading ? (
           <div className="text-center py-12 text-slate-500 font-medium">
             Loading applications data...
@@ -116,7 +100,6 @@ export default function AdminApplications() {
             No job applications found matching your criteria.
           </div>
         ) : (
-          /* Dashboard Grid Grid/List layout */
           <div className="grid grid-cols-1 gap-4">
             {filteredApplications.map((app) => {
               const formattedDate = new Date(app.created_at).toLocaleDateString("en-US", {
@@ -130,7 +113,6 @@ export default function AdminApplications() {
                   key={app.id}
                   className="bg-white rounded-xl border border-slate-100 p-6 shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row md:items-center justify-between gap-6"
                 >
-                  {/* Applicant Details */}
                   <div className="space-y-3">
                     <div className="flex items-center gap-2.5">
                       <div className="bg-slate-100 p-2 rounded-full text-slate-600">
@@ -145,7 +127,6 @@ export default function AdminApplications() {
                     </div>
                   </div>
 
-                  {/* Targeted Job Position Info */}
                   <div className="flex items-start md:items-center gap-2.5 md:w-1/3">
                     <div className="bg-blue-50 p-2 rounded-lg text-[#0f4c81] shrink-0">
                       <Briefcase className="w-4 h-4" />
@@ -159,7 +140,6 @@ export default function AdminApplications() {
                     </div>
                   </div>
 
-                  {/* Timeline Timestamp Badge & Action Context */}
                   <div className="flex items-center justify-between md:justify-end gap-6 border-t md:border-t-0 border-slate-50 pt-4 md:pt-0">
                     <div className="text-left md:text-right">
                       <span className="text-xs text-slate-400 font-bold block uppercase tracking-wider">Date Received</span>
