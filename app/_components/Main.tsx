@@ -77,7 +77,6 @@ function Main() {
                     Career Opportunities
                 </motion.p>
 
-                {/* Heading */}
                 <motion.h1
                     variants={itemVariants}
                     className="text-5xl font-extrabold tracking-tight text-[#0f172a] sm:text-[64px] leading-tight"
@@ -85,7 +84,6 @@ function Main() {
                     Find Your Perfect <span className="text-[#0f3473]">Career</span>
                 </motion.h1>
 
-                {/* Subtitle */}
                 <motion.p
                     variants={itemVariants}
                     className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-gray-500 sm:text-lg"
@@ -96,19 +94,17 @@ function Main() {
                     apply to roles that match your skills and aspirations.
                 </motion.p>
 
-                {/* Search */}
                 <motion.div
                     variants={bottomUpVariants}
                     className="mx-auto mt-12 max-w-161"
                 >
-                    {/* 3. Attach the submit handler */}
                     <form onSubmit={handleSearchSubmit} className="flex items-center gap-2 rounded-lg bg-white p-1.5 border border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
                         <input
                             type="text"
                             placeholder="Search by job title, company, or keyword..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-transparent px-4 py-3 text-sm text-gray-700 placeholder-gray-400 outline-none"
+                            className="w-full bg-transparent  px-4 py-3 text-sm text-gray-700 placeholder-gray-400 outline-none"
                         />
                         <button
                             type="submit"

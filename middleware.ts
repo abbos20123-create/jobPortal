@@ -34,7 +34,6 @@ export async function middleware(request: NextRequest) {
     const isTargetingAdmin = request.nextUrl.pathname.startsWith('/admin')
     const isAtAdminLogin = request.nextUrl.pathname === '/admin/login' // Adjust if your login path is different
 
-    // If they are trying to access an admin page but have no active session, send them to login
     if (isTargetingAdmin && !isAtAdminLogin && !user) {
         const loginUrl = new URL('/admin/login', request.url)
         return NextResponse.redirect(loginUrl)
@@ -43,7 +42,6 @@ export async function middleware(request: NextRequest) {
     return response
 }
 
-// 4. Tell Next.js to only run this middleware on your admin dashboard routes
 export const config = {
     matcher: ['/admin/:path*'],
 }

@@ -22,13 +22,13 @@ function Navbar() {
                     </a>
 
                     <div className="flex items-center gap-6 sm:gap-8">
-                        <a href="#" className="text-[14px] font-medium text-gray-700 hover:text-gray-900 transition-colors">
+                        <button onClick={()=>route.push("/")} className="text-[14px] cursor-pointer font-medium text-gray-700 hover:text-sky-700 transition-colors">
                             Home
-                        </a>
-                        <a onClick={()=>route.push("/jobs")} className="text-[14px] cursor-pointer font-medium text-gray-700 hover:text-gray-900 transition-colors">
+                        </button>
+                        <a onClick={()=>route.push("/jobs")} className="text-[14px] cursor-pointer font-medium text-gray-700 hover:text-sky-700 transition-colors">
                             Jobs
                         </a>
-                        <button onClick={()=>route.push("/admin")} className="rounded-md bg-[#0f3473] px-5 py-2.5 text-[14px] font-semibold text-white transition hover:bg-[#0b2859] shadow-sm">
+                        <button onClick={()=>route.push("/admin")} className="rounded-md cursor-pointer bg-[#0f3473] px-5 py-2.5 text-[14px] font-semibold text-white transition hover:bg-[#0b2859] shadow-sm">
                             Post a Job
                         </button>
                     </div>

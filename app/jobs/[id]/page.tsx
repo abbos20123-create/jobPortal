@@ -29,7 +29,7 @@ export default function JobDetails() {
     const [job, setJob] = useState<Job | null>(null);
     const [loading, setLoading] = useState(true);
     
-    // Modal & Form States
+    
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");

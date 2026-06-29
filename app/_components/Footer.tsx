@@ -22,12 +22,12 @@ function Footer() {
                         </h4>
                         <ul className="space-y-2.5 text-[13px]">
                             <li>
-                                <a href="#" className="hover:text-white transition-colors">
+                                <a href="/jobs" className="hover:text-amber-700 transition-colors">
                                     Browse Jobs
                                 </a>
                             </li>
                             <li>
-                                <a href="#" className="hover:text-white transition-colors">
+                                <a href="/admin" className="hover:text-amber-700 transition-colors">
                                     Post a Job
                                 </a>
                             </li>

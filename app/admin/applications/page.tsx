@@ -1,15 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { createClient } from "@supabase/supabase-js";
 import { Mail, User, Briefcase, Calendar, Search, ShieldCheck } from "lucide-react";
 import Navbar from "../../_components/Navbar"; // Adjust path if necessary
 import { Application } from "@/app/types";
+import { createClient } from "@/supabase/utilis/clientComponents";
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+const supabase = createClient();
 
 
 
@@ -19,14 +16,13 @@ export default function AdminApplications() {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    fetchApplications();
+    getApplications();
   }, []);
 
-  const fetchApplications = async () => {
+  const getApplications = async () => {
     setLoading(true);
     try {
-      const { data: appsData, error: appsError } = await supabase
-        .from("applications")
+      const { data: appsData, error: appsError } = await supabase.from("applications")
         .select("*")
         .order("created_at", { ascending: false });
 

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/supabase/utilis/clientComponents";
 
 export default function AdminLayout({
@@ -11,6 +11,7 @@ export default function AdminLayout({
     children: React.ReactNode;
 }) {
     const router = useRouter();
+    const pathname = usePathname()
     const [loading, setLoading] = useState(false);
     const supabase = createClient()
 
@@ -30,6 +31,24 @@ export default function AdminLayout({
         }
     };
 
+    const menuItems = [
+        {
+            title: "Jobs",
+            href: "/admin",
+            icon: "📋",
+        },
+        {
+            title: "Create Job",
+            href: "/admin/createJob",
+            icon: "➕",
+        },
+        {
+            title: "Applications",
+            href: "/admin/applications",
+            icon: "📇",
+        },
+    ];
+
 
     return (
         <div className="min-h-screen bg-white flex font-sans">
@@ -46,28 +65,25 @@ export default function AdminLayout({
                         <p className="text-xs font-bold text-slate-500 uppercase tracking-widest px-2 mb-4">
                             Admin Menu
                         </p>
-                        <nav className="space-y-1">
-                            <Link
-                                href="/admin"
-                                className="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-300 font-semibold hover:bg-zinc-900 transition-colors"
-                            >
-                                <span className="text-lg">📋</span>
-                                <span>Jobs</span>
-                            </Link>
-                            <Link
-                                href="/admin/createJob"
-                                className="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-300 font-semibold hover:bg-zinc-900 transition-colors"
-                            >
-                                <span className="text-purple-400 text-lg">➕</span>
-                                <span>Create Job</span>
-                            </Link>
-                            <Link
-                                href="/admin/applications"
-                                className="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-300 font-semibold hover:bg-zinc-900 transition-colors"
-                            >
-                                <span className="text-blue-400 text-lg">📇</span>
-                                <span>Applications</span>
-                            </Link>
+                        <nav className="space-y-2">
+                            {menuItems.map((item) => {
+                                const active = pathname === item.href;
+
+                                return (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        className={`flex items-center gap-3 px-3 py-3 rounded-lg font-semibold transition-all
+                                            ${active
+                                                ? "bg-white text-black shadow-md"
+                                                : "text-slate-300 hover:bg-zinc-900 hover:text-white"
+                                            }`}
+                                    >
+                                        <span className="text-lg">{item.icon}</span>
+                                        <span>{item.title}</span>
+                                    </Link>
+                                );
+                            })}
                         </nav>
                     </div>
                 </div>

@@ -3,10 +3,14 @@
 import React, { useState, useEffect } from "react";
 import { Pencil, Trash2, Plus, Briefcase } from "lucide-react";
 import { createClient } from "@/supabase/utilis/clientComponents";
-import Rodal from "rodal";
 
-// Import styles explicitly
-import "rodal/lib/rodal.css";
+// Import shadcn/ui Dialog components
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 
 const supabase = createClient();
 
@@ -38,7 +42,6 @@ export default function JobsCRUD() {
     const [jobs, setJobs] = useState<Job[]>([]);
     const [formData, setFormData] = useState(INITIAL_FORM_STATE);
 
-    // Rodal visibility controllers
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalMode, setModalMode] = useState<"create" | "edit">("create");
     const [editingJobId, setEditingJobId] = useState<string | null>(null);
@@ -219,7 +222,6 @@ export default function JobsCRUD() {
                                         <div className="job-meta-cell">{job.company} — {job.location}</div>
                                     </td>
                                     <td>
-                                        {/* Displaying actual formatted array items inside the list view */}
                                         {job.requirements && job.requirements.length > 0 ? (
                                             <ul className="requirements-list-inline">
                                                 {job.requirements.map((req, idx) => (
@@ -254,130 +256,127 @@ export default function JobsCRUD() {
                 )}
             </div>
 
-            <Rodal
-                visible={isModalOpen}
-                onClose={closeModal}
-                width={650}
-                animation="fade"
-                customStyles={{ backgroundColor: "#ffffff" }}
-            >
-                <div style={{ paddingBottom: "1rem", marginBottom: "1.5rem", borderBottom: "1px solid #f1f5f9" }}>
-                    <h2 style={{ margin: 0, fontSize: "1.25rem", fontWeight: 700, color: "#0f172a" }}>
-                        {modalMode === "create" ? "Add New Job Listing" : "Modify Listing Details"}
-                    </h2>
-                </div>
+            {/* shadcn/ui Dialog Component */}
+            <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                <DialogContent className="sm:max-w-[650px] bg-white p-6">
+                    <DialogHeader className="border-b pb-4 mb-6">
+                        <DialogTitle className="text-xl font-bold text-slate-900">
+                            {modalMode === "create" ? "Add New Job Listing" : "Modify Listing Details"}
+                        </DialogTitle>
+                    </DialogHeader>
 
-                <form onSubmit={handleSubmit}>
-                    <div className="form-grid-2">
-                        <div>
-                            <label className="form-label">Job Title *</label>
-                            <input
-                                type="text"
-                                name="title"
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-grid-2">
+                            <div>
+                                <label className="form-label">Job Title *</label>
+                                <input
+                                    type="text"
+                                    name="title"
+                                    required
+                                    value={formData.title}
+                                    onChange={handleChange}
+                                    placeholder="e.g., Senior Frontend Engineer"
+                                    className="form-input"
+                                />
+                            </div>
+                            <div>
+                                <label className="form-label">Company *</label>
+                                <input
+                                    type="text"
+                                    name="company"
+                                    required
+                                    value={formData.company}
+                                    onChange={handleChange}
+                                    placeholder="e.g., TechCorp"
+                                    className="form-input"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="form-grid-2">
+                            <div>
+                                <label className="form-label">Location *</label>
+                                <input
+                                    type="text"
+                                    name="location"
+                                    required
+                                    value={formData.location}
+                                    onChange={handleChange}
+                                    placeholder="e.g., San Francisco, CA"
+                                    className="form-input"
+                                />
+                            </div>
+                            <div>
+                                <label className="form-label">Salary (Optional)</label>
+                                <input
+                                    type="text"
+                                    name="salary"
+                                    value={formData.salary}
+                                    onChange={handleChange}
+                                    placeholder="e.g., $100,000 - $150,000"
+                                    className="form-input"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="form-grid-2">
+                            <div>
+                                <label className="form-label">Category</label>
+                                <select name="category" value={formData.category} onChange={handleChange} className="form-select">
+                                    <option value="Technology">Technology</option>
+                                    <option value="Design">Design</option>
+                                    <option value="Marketing">Marketing</option>
+                                    <option value="Sales">Sales</option>
+                                    <option value="Finance">Finance</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label className="form-label">Job Type</label>
+                                <select name="job_type" value={formData.job_type} onChange={handleChange} className="form-select">
+                                    <option value="Full-time">Full-time</option>
+                                    <option value="Part-time">Part-time</option>
+                                    <option value="Contract">Contract</option>
+                                    <option value="Remote">Remote</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label">Description *</label>
+                            <textarea
+                                name="description"
                                 required
-                                value={formData.title}
+                                rows={4}
+                                value={formData.description}
                                 onChange={handleChange}
-                                placeholder="e.g., Senior Frontend Engineer"
-                                className="form-input"
+                                placeholder="Job description and responsibilities..."
+                                className="form-textarea"
                             />
                         </div>
-                        <div>
-                            <label className="form-label">Company *</label>
+
+                        <div className="form-group">
+                            <label className="form-label">Requirements (comma-separated)</label>
                             <input
                                 type="text"
-                                name="company"
-                                required
-                                value={formData.company}
+                                name="requirements"
+                                value={formData.requirements}
                                 onChange={handleChange}
-                                placeholder="e.g., TechCorp"
+                                placeholder="e.g., React, TypeScript, 5+ years experience"
                                 className="form-input"
                             />
                         </div>
-                    </div>
 
-                    <div className="form-grid-2">
-                        <div>
-                            <label className="form-label">Location *</label>
-                            <input
-                                type="text"
-                                name="location"
-                                required
-                                value={formData.location}
-                                onChange={handleChange}
-                                placeholder="e.g., San Francisco, CA"
-                                className="form-input"
-                            />
+                        <div className="form-actions-grid">
+                            <button type="submit" disabled={loading} className="btn-primary" style={{ justifyContent: "center" }}>
+                                {loading ? "Processing..." : modalMode === "create" ? "Add Job" : "Update Details"}
+                            </button>
+                            <button type="button" onClick={closeModal} className="btn-secondary">
+                                Cancel
+                            </button>
                         </div>
-                        <div>
-                            <label className="form-label">Salary (Optional)</label>
-                            <input
-                                type="text"
-                                name="salary"
-                                value={formData.salary}
-                                onChange={handleChange}
-                                placeholder="e.g., $100,000 - $150,000"
-                                className="form-input"
-                            />
-                        </div>
-                    </div>
-
-                    <div className="form-grid-2">
-                        <div>
-                            <label className="form-label">Category</label>
-                            <select name="category" value={formData.category} onChange={handleChange} className="form-select">
-                                <option value="Technology">Technology</option>
-                                <option value="Design">Design</option>
-                                <option value="Marketing">Marketing</option>
-                                <option value="Sales">Sales</option>
-                                <option value="Finance">Finance</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label className="form-label">Job Type</label>
-                            <select name="job_type" value={formData.job_type} onChange={handleChange} className="form-select">
-                                <option value="Full-time">Full-time</option>
-                                <option value="Part-time">Part-time</option>
-                                <option value="Contract">Contract</option>
-                                <option value="Remote">Remote</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="form-group">
-                        <label className="form-label">Description *</label>
-                        <textarea
-                            name="description"
-                            required
-                            rows={4}
-                            value={formData.description}
-                            onChange={handleChange}
-                            placeholder="Job description and responsibilities..."
-                            className="form-textarea"
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label className="form-label">Requirements (comma-separated)</label>
-                        <input
-                            type="text"
-                            name="requirements"
-                            value={formData.requirements}
-                            onChange={handleChange}
-                            placeholder="e.g., React, TypeScript, 5+ years experience"
-                            className="form-input"
-                        />
-                    </div>
-
-                    <div className="form-actions-grid">
-                        <button type="submit" disabled={loading} className="btn-primary" style={{ justifyContent: "center" }}>
-                            {loading ? "Processing..." : modalMode === "create" ? "Add Job" : "Update Details"}
-                        </button>
-                        <button type="button" onClick={closeModal} className="btn-secondary">
-                            Cancel
-                        </button>
-                    </div>
-                </form>
-            </Rodal>
+                    </form>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
